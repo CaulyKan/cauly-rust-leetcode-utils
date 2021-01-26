@@ -1,8 +1,11 @@
 [package]
-name = "leetcode-utils"
-version = "0.1.0"
+name = "cauly-rust-leetcode-utils"
+version = "0.1.1"
 authors = ["Cauly Kan <cauliflower.kan@gmail.com>"]
 edition = "2018"
+description = "Some reusable code for leetcode"
+license = "MIT"
+#include = ["src/**/*", "Cargo.toml"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

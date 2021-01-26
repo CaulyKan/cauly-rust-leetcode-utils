@@ -1,5 +1,5 @@
-extern crate leetcode_utils;
-use leetcode_utils::union_find::*;
+extern crate cauly_rust_leetcode_utils;
+use cauly_rust_leetcode_utils::union_find::*;
 
 #[test]
 fn test1() {

@@ -1,5 +1,5 @@
-extern crate leetcode_utils;
-use leetcode_utils::binary_tree::*;
+extern crate cauly_rust_leetcode_utils;
+use cauly_rust_leetcode_utils::binary_tree::*;
 
 #[test]
 fn test1() {
