@@ -12,9 +12,9 @@ pub struct GridItem<T>
 where
     T: Clone,
 {
-    val: T,
-    x: usize,
-    y: usize,
+    pub val: T,
+    pub x: usize,
+    pub y: usize,
 }
 
 impl<T> Grid<T>
