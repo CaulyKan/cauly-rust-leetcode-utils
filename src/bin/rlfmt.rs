@@ -32,10 +32,11 @@ fn main() {
     let mut result = String::new();
 
     for line in content.lines() {
-        if line.starts_with("pub struct Solution;") {
+        if line.starts_with("pub struct Solution;") || line.starts_with("struct Solution;") {
             // skip
         } else if line.starts_with("use cauly_rust_leetcode_utils::") {
             let remaining = line["use cauly_rust_leetcode_utils::".len()..].to_string();
+            result.push_str("// These code are written and formatted by cauly-rust-leetcode-utils. See `https://github.com/CaulyKan/cauly-rust-leetcode-utils` for more infomation.\n");
             result.push_str(convert(remaining));
         } else {
             result.push_str(line);

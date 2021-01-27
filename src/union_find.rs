@@ -1,6 +1,7 @@
 // #region UnionFind
 use std::collections::HashMap;
 
+#[derive(Clone)]
 pub struct UnionFind4Usize {
     id: Vec<usize>,
     size: Vec<usize>,
@@ -8,6 +9,7 @@ pub struct UnionFind4Usize {
     length: usize,
 }
 
+#[derive(Clone)]
 pub struct UnionFind<T>
 where
     T: std::cmp::Eq,
