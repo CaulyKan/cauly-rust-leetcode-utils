@@ -17,7 +17,7 @@ fn convert(str: String) -> &'static str {
 
 fn main() {
     let args: Vec<String> = env::args().collect();
-    let mut filename;
+    let filename;
     if args.len() > 1 {
         filename = args[1].clone();
     } else if Path::new("lib.rs").is_file() {
