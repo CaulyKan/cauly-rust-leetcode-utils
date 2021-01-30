@@ -1,21 +1,7 @@
-use cauly_rust_leetcode_utils;
+use cauly_rust_leetcode_utils::*;
 use std::env;
 use std::fs;
 use std::path::Path;
-
-fn convert(str: String) -> &'static str {
-    if str.starts_with("binary_tree") {
-        cauly_rust_leetcode_utils::BINARY_TREE_SRC
-    } else if str.starts_with("grid") {
-        cauly_rust_leetcode_utils::GRID_SRC
-    } else if str.starts_with("union_find") {
-        cauly_rust_leetcode_utils::UNION_FIND_SRC
-    } else if str.starts_with("binary_search") {
-        cauly_rust_leetcode_utils::BINARY_SEARCH_SRC
-    } else {
-        panic!("unknown module for cauly_rust_leetcode_util");
-    }
-}
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -39,7 +25,7 @@ fn main() {
         } else if line.starts_with("use cauly_rust_leetcode_utils::") {
             let remaining = line["use cauly_rust_leetcode_utils::".len()..].to_string();
             result.push_str("// These code are written and formatted by cauly-rust-leetcode-utils. See `https://github.com/CaulyKan/cauly-rust-leetcode-utils` for more infomation.\n");
-            result.push_str(convert(remaining));
+            result.push_str(get_module_source(remaining));
         } else {
             result.push_str(line);
             result.push_str("\n");
