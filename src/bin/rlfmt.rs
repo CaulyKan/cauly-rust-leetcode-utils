@@ -10,6 +10,8 @@ fn convert(str: String) -> &'static str {
         cauly_rust_leetcode_utils::GRID_SRC
     } else if str.starts_with("union_find") {
         cauly_rust_leetcode_utils::UNION_FIND_SRC
+    } else if str.starts_with("binary_search") {
+        cauly_rust_leetcode_utils::BINARY_SEARCH_SRC
     } else {
         panic!("unknown module for cauly_rust_leetcode_util");
     }
