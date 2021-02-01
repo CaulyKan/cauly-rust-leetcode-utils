@@ -6,9 +6,10 @@ where
     width: usize,
     height: usize,
     values: Vec<Vec<T>>,
+    is_enabled: Vec<Vec<bool>>,
 }
 
-#[derive(Debug)]
+#[derive(Clone)]
 pub struct GridItem<T>
 where
     T: Clone,
@@ -16,6 +17,7 @@ where
     pub val: T,
     pub x: usize,
     pub y: usize,
+    pub is_enabled: bool,
 }
 
 impl<T> Grid<T>
@@ -28,6 +30,7 @@ where
             width,
             height,
             values: vec![vec![T::default(); width]; height],
+            is_enabled: vec![vec![true; width]; height],
         }
     }
 
@@ -40,13 +43,18 @@ where
     }
 
     pub fn get_items<'a>(&'a self) -> impl Iterator<Item = GridItem<T>> + 'a {
-        self.values.iter().enumerate().flat_map(|(i, vec)| {
+        self.values.iter().enumerate().flat_map(move |(i, vec)| {
             vec.iter().enumerate().map(move |(j, val)| GridItem {
                 val: val.clone(),
                 x: j,
                 y: i,
+                is_enabled: self.is_enabled[i][j],
             })
         })
+    }
+
+    pub fn set_is_disabled(&mut self, pos: (usize, usize), value: bool) {
+        self.is_enabled[pos.1][pos.0] = value;
     }
 }
 
@@ -60,6 +68,16 @@ where
 }
 
 impl<T> std::cmp::Eq for GridItem<T> where T: Clone {}
+
+impl<T> std::fmt::Debug for GridItem<T>
+where
+    T: Clone,
+    T: std::fmt::Debug,
+{
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        write!(f, "({}, {}, {:?})", self.x, self.y, self.val)
+    }
+}
 
 impl<T> std::hash::Hash for GridItem<T>
 where
@@ -85,41 +103,48 @@ where
     T: Clone,
 {
     pub fn from(grid: Vec<Vec<T>>) -> Self {
+        let height = grid.len();
+        let width = grid[0].len();
         Grid {
-            width: grid[0].len(),
-            height: grid.len(),
+            width,
+            height,
             values: grid,
+            is_enabled: vec![vec![true; width]; height],
         }
     }
     pub fn get_near_4(&self, pos: (usize, usize)) -> Vec<GridItem<T>> {
         let mut result = Vec::new();
 
-        if pos.0 > 0 {
+        if pos.0 > 0 && self.is_enabled[pos.1][pos.0 - 1] {
             result.push(GridItem {
                 x: pos.0 - 1,
                 y: pos.1,
                 val: self.values[pos.1][pos.0 - 1].clone(),
+                is_enabled: true,
             });
         }
-        if pos.0 < self.width - 1 {
+        if pos.0 < self.width - 1 && self.is_enabled[pos.1][pos.0 + 1] {
             result.push(GridItem {
                 x: pos.0 + 1,
                 y: pos.1,
                 val: self.values[pos.1][pos.0 + 1].clone(),
+                is_enabled: true,
             });
         }
-        if pos.1 > 0 {
+        if pos.1 > 0 && self.is_enabled[pos.1 - 1][pos.0] {
             result.push(GridItem {
                 x: pos.0,
                 y: pos.1 - 1,
                 val: self.values[pos.1 - 1][pos.0].clone(),
+                is_enabled: true,
             });
         }
-        if pos.1 < self.height - 1 {
+        if pos.1 < self.height - 1 && self.is_enabled[pos.1 + 1][pos.0] {
             result.push(GridItem {
                 x: pos.0,
                 y: pos.1 + 1,
                 val: self.values[pos.1 + 1][pos.0].clone(),
+                is_enabled: true,
             });
         }
 
@@ -131,6 +156,7 @@ where
             x: pos.0,
             y: pos.1,
             val: self.values[pos.1][pos.0].clone(),
+            is_enabled: self.is_enabled[pos.1][pos.0],
         }
     }
 
