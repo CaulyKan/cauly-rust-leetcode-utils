@@ -1,6 +1,7 @@
 pub mod binary_search;
 pub mod binary_tree;
 pub mod dp;
+pub mod graph;
 pub mod grid;
 pub mod segment_tree;
 pub mod union_find;
@@ -12,6 +13,7 @@ pub const UNION_FIND_SRC: &'static str = include_str!("union_find.rs");
 pub const BINARY_SEARCH_SRC: &'static str = include_str!("binary_search.rs");
 pub const SEGMENT_TREE_SRC: &'static str = include_str!("segment_tree.rs");
 pub const DP_SRC: &'static str = include_str!("dp.rs");
+pub const GRAPH_SRC: &'static str = include_str!("graph.rs");
 
 pub fn get_module_source(str: String) -> &'static str {
     if str.starts_with("binary_tree") {
@@ -26,6 +28,8 @@ pub fn get_module_source(str: String) -> &'static str {
         SEGMENT_TREE_SRC
     } else if str.starts_with("dp") {
         DP_SRC
+    } else if str.starts_with("graph") {
+        GRAPH_SRC
     } else if str.starts_with("define_dp") {
         ""
     } else {

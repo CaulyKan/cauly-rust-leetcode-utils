@@ -41,9 +41,9 @@ impl<TInput: Clone + Default, TOutput: Clone + Default> SegmentTree<TInput, TOut
     /// ```
     /// use cauly_rust_leetcode_utils::segment_tree::*;
     /// let mut st = SegmentTree::from_simple(&[1,2,3], Box::new(|&x,&y|x+y));
-    /// assert_eq!(6, st.query(0,3));
+    /// assert_eq!(6, st.query(0,3,0));
     /// st.update(0, &0);
-    /// assert_eq!(5, st.query(0,3));
+    /// assert_eq!(5, st.query(0,3,0));
     /// ```
     pub fn update(&mut self, i: usize, val: &TInput) {
         let mut index = i + self.list.len() / 2;
@@ -60,15 +60,19 @@ impl<TInput: Clone + Default, TOutput: Clone + Default> SegmentTree<TInput, TOut
     /// ```
     /// use cauly_rust_leetcode_utils::segment_tree::*;
     /// let mut st = SegmentTree::from_simple(&[1,2,3], Box::new(|&x,&y|x+y));
-    /// assert_eq!(6, st.query(0,3));
-    /// assert_eq!(3, st.query(0,2));
-    /// assert_eq!(5, st.query(1,3));
+    /// assert_eq!(6, st.query(0,3,0));
+    /// assert_eq!(3, st.query(0,2,0));
+    /// assert_eq!(5, st.query(1,3,0));
+    /// let mut st2 = SegmentTree::from_simple(&[1,2,3], Box::new(|&x,&y|std::cmp::min(x,y)));
+    /// assert_eq!(1, st2.query(0,3,999));
+    /// assert_eq!(1, st2.query(0,2,999));
+    /// assert_eq!(2, st2.query(1,3,999));
     /// ```
-    pub fn query(&self, left: usize, right: usize) -> TOutput {
+    pub fn query(&self, left: usize, right: usize, default: TOutput) -> TOutput {
         let n = self.list.len() / 2;
         let mut left = left + n;
         let mut right = right + n;
-        let mut result: TOutput = Default::default();
+        let mut result: TOutput = default;
         while left < right {
             if (left & 1) == 1 {
                 result = (self.aggr_func)(&result, &self.list[left]);
